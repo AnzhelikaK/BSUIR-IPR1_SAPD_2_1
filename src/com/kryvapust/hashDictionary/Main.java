@@ -53,23 +53,10 @@ public class Main {
         if (scanner.hasNextLine()) {
             value = scanner.nextLine();
         }
-        if (dictionary[getHash(key)] == null) {
-            dictionary[getHash(key)] = new Section();
+        if (dictionary[getModFromHash(key)] == null) {
+            dictionary[getModFromHash(key)] = new Section();
         }
-        dictionary[getHash(key)].addTranslation(new Combination(key, value));
-    }
-
-    private static void deleteTranslation(Section[] dictionaries) {
-        String key = "";
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Insert word, which you want to delete: ");
-        if (scanner.hasNextLine()) {
-            key = scanner.nextLine();
-        }
-        if (dictionaries[getHash(key)] == null) {
-            return;
-        }
-        dictionaries[getHash(key)].deleteTranslation(key);
+        dictionary[getModFromHash(key)].addTranslation(new Combination(key, value));
     }
 
     private static void getTranslation(Section[] dictionaries) {
@@ -79,13 +66,26 @@ public class Main {
         if (scanner.hasNextLine()) {
             key = scanner.nextLine();
         }
-        if (dictionaries[getHash(key)] == null) {
+        if (dictionaries[getModFromHash(key)] == null) {
             return;
         }
-        System.out.println(dictionaries[getHash(key)].getTranslation(key));
+        System.out.println(dictionaries[getModFromHash(key)].getTranslation(key));
     }
 
-    public static int getHash(String key) {
+    private static void deleteTranslation(Section[] dictionaries) {
+        String key = "";
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Insert word, which you want to delete: ");
+        if (sc.hasNextLine()) {
+            key = sc.nextLine();
+        }
+        if (dictionaries[getModFromHash(key)] == null) {
+            return;
+        }
+        dictionaries[getModFromHash(key)].deleteTranslation(key);
+    }
+
+    public static int getModFromHash(String key) {
         return key.hashCode() % HASH_SIZE;
     }
 
